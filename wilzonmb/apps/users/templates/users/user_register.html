@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Registro de Usuarios</h1>
+	<form method="POST">
+		{% csrf_token %}
+		<label>Nombre de Usuario</label>
+		{{ form.username }}
+		{{ form.username.errors }}
+		<label>Nombres</label>
+		{{ form.first_name }}
+		{{ form.first_name.errors }}
+		<label>Apellidos</label>
+		{{ form.last_name }}
+		{{ form.last_name.errors }}
+		<label>Email</label>
+		{{ form.email }}
+		{{ form.email.errors }}
+		<label>Password</label>
+		{{ form.password }}
+		{{ form.password.errors }}
+		<input type="submit" value="Crear Usuario">
+	</form>
+</body>
+</html>
