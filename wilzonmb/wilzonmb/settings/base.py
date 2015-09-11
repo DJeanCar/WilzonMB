@@ -23,10 +23,11 @@ DJANGO_APPS = (
 LOCAL_APPS = (
 		'apps.main',
 		'apps.users',
+        'apps.posts',
 	)
 
 THIRD_PARTY_APPS = (
-
+        'ckeditor',
 	)
 
 
@@ -67,3 +68,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'wilzonmb.wsgi.application'
 
 AUTH_USER_MODEL = 'users.User'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
