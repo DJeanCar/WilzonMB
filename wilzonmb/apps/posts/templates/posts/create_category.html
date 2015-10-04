@@ -5,48 +5,28 @@
 	<title>Document</title>
 </head>
 <body>
-	<h1>Crear Post</h1>
-	<form method="POST" enctype="multipart/form-data">
+	<h1>Crear Categoría</h1>
+	<form method="POST">
 		{% csrf_token %}
-		<div>
-			<label>Categoría</label>
-			{{ form.category }}
-			{{ form.category.errors }}
-		</div>
-		<div>
-			<label>Tags</label>
-			{{ form.tag }}
-			{{ form.tag.errors }}
-		</div>
 		<div>
 			<label>Título</label>
 			{{ form.title }}
 			{{ form.title.errors }}
 		</div>
 		<div>
-			<label>Título oculto</label>
-			{{ form.title_hidden }}
-			{{ form.title_hidden.errors }}
-		</div>
-		<div>
-			<label>Descripción corta</label>
+			<label>Descripcion Corta</label>
 			{{ form.description_short }}
 			{{ form.description_short.errors }}
 		</div>
 		<div>
-			<label>Descripción larga</label>
+			<label>Descripcion Larga</label>
 			{{ form.description_large }}
 			{{ form.description_large.errors }}
 		</div>
 		<div>
-			<label>Descripción extra</label>
+			<label>Descripcion Extra</label>
 			{{ form.description_extra }}
 			{{ form.description_extra.errors }}
-		</div>
-		<div>
-			<label>Imagen</label>
-			{{ form.multimedia_imagen_destacado }}
-			{{ form.multimedia_imagen_destacado.errors }}
 		</div>
 		<div>
 			<label>Estado</label>
@@ -59,6 +39,16 @@
 			{{ form.orden.errors }}
 		</div>
 		<div>
+			<label>En menu</label>
+			{{ form.en_menu }}
+			{{ form.en_menu.errors }}
+		</div>
+		<div>
+			<label>En breadcrumbs</label>
+			{{ form.en_breadcrumbs }}
+			{{ form.en_breadcrumbs.errors }}
+		</div>
+		<div>
 			<label>Meta título</label>
 			{{ form.meta_title }}
 			{{ form.meta_title.errors }}
@@ -69,7 +59,7 @@
 			{{ form.meta_description.errors }}
 		</div>
 		<div>
-			<label>Palabras claves</label>
+			<label>Palabras Claves</label>
 			{{ form.meta_keywords }}
 			{{ form.meta_keywords.errors }}
 		</div>
@@ -79,21 +69,16 @@
 			{{ form.meta_author.errors }}
 		</div>
 		<div>
-			<label>Sitemap</label>
+			<label>SiteMap</label>
 			{{ form.xmlsitemap }}
 			{{ form.xmlsitemap.errors }}
 		</div>
 		<div>
-			<label>Sitemap prioridad</label>
+			<label>SiteMap Prioridad</label>
 			{{ form.xmlsitemap_prioridad }}
 			{{ form.xmlsitemap_prioridad.errors }}
 		</div>
-		<div>
-			<label>Estado de comentarios</label>
-			{{ form.status_comment }}
-			{{ form.status_comment.errors }}
-		</div>
-		<input type="submit" value="Crear Post">
+		<input type="submit" value="Crear">
 	</form>
 </body>
 </html>

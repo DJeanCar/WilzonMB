@@ -9,7 +9,7 @@ class Category(models.Model):
 	user = models.ForeignKey(User)
 
 	title = models.CharField(max_length = 50)
-	slug = models.SlugField(max_length = 50)
+	slug = models.SlugField(max_length = 50, null = True, blank = True)
 	description_short = RichTextField()
 	description_large = RichTextField()
 	description_extra = models.TextField()
@@ -33,7 +33,7 @@ class Category(models.Model):
 	def save(self, *args, **kwargs):
 		if not self.id:
 			self.slug = slugify(self.title)
-		super(Movie, self).save(*args, **kwargs)
+		super(Category, self).save(*args, **kwargs)
 
 
 class Tag(models.Model):
@@ -41,7 +41,7 @@ class Tag(models.Model):
 	user = models.ForeignKey(User)
 
 	title = models.CharField(max_length = 50)
-	slug = models.SlugField(max_length = 50)
+	slug = models.SlugField(max_length = 50,  null = True, blank = True)
 	status = models.BooleanField(default = True)
 	description = models.TextField()
 	orden = models.IntegerField()
@@ -61,7 +61,7 @@ class Tag(models.Model):
 	def save(self, *args, **kwargs):
 		if not self.id:
 			self.slug = slugify(self.title)
-		super(Movie, self).save(*args, **kwargs)
+		super(Tag, self).save(*args, **kwargs)
 
 
 class Post(models.Model):
@@ -71,7 +71,7 @@ class Post(models.Model):
 	user = models.ForeignKey(User)
 
 	title = models.CharField(max_length = 50)
-	slug = models.SlugField(max_length = 50)
+	slug = models.SlugField(max_length = 50, null = True, blank = True)
 	title_hidden = models.BooleanField(default = True)
 	description_short = RichTextField()
 	description_large = RichTextField()
@@ -96,24 +96,22 @@ class Post(models.Model):
 	def save(self, *args, **kwargs):
 		if not self.id:
 			self.slug = slugify(self.title)
-		super(Movie, self).save(*args, **kwargs)
+		super(Post, self).save(*args, **kwargs)
 
 class Comment(models.Model):
 
 	user = models.ForeignKey(User, null = True, blank = True)
 	post = models.ForeignKey(Post)
-	title = models.CharField(max_length = 50)
-	slug = models.SlugField(max_length = 50)
+	title = models.CharField(max_length = 50, null = True, blank = True)
+	slug = models.SlugField(max_length = 50, null = True, blank = True)
 	description = models.TextField()
 	status = models.BooleanField(default = True)
-	name = models.CharField(max_length = 255)
-	email = models.EmailField()
-	web = models.CharField(max_length = 100)
+	name = models.CharField(max_length = 255, null = True, blank = True)
+	email = models.EmailField(null = True, blank = True)
+	web = models.CharField(max_length = 100, null = True, blank = True)
 
-	def __unicode__(self):
-		return self.title
 
 	def save(self, *args, **kwargs):
 		if not self.id:
 			self.slug = slugify(self.title)
-		super(Movie, self).save(*args, **kwargs)
+		super(Comment, self).save(*args, **kwargs)

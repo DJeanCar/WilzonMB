@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Crear Tag</h1>
+	<form method="POST">
+		{% csrf_token %}
+		<div>
+			<label>Título</label>
+			{{ form.title }}
+			{{ form.title.errors }}
+		</div>
+		<div>
+			<label>Estado</label>
+			{{ form.status }}
+			{{ form.status.errors }}
+		</div>
+		<div>
+			<label>Descripción</label>
+			{{ form.description }}
+			{{ form.description.errors }}
+		</div>
+		<div>
+			<label>Orden</label>
+			{{ form.orden }}
+			{{ form.orden.errors }}
+		</div>
+		<div>
+			<label>Meta titulo</label>
+			{{ form.meta_title }}
+			{{ form.meta_title.errors }}
+		</div>
+		<div>
+			<label>Meta Descripción</label>
+			{{ form.meta_description }}
+			{{ form.meta_description.errors }}
+		</div>
+		<div>
+			<label>Palabras Clave</label>
+			{{ form.meta_keywords }}
+			{{ form.meta_keywords.errors }}
+		</div>
+		<div>
+			<label>Autor</label>
+			{{ form.meta_author }}
+			{{ form.meta_author.errors }}
+		</div>
+		<div>
+			<label>SiteMap</label>
+			{{ form.xmlsitemap }}
+			{{ form.xmlsitemap.errors }}
+		</div>
+		<div>
+			<label>SiteMap Prioridad</label>
+			{{ form.xmlsitemap_prioridad }}
+			{{ form.xmlsitemap_prioridad.errors }}
+		</div>
+		<input type="submit" value="Crear">
+	</form>
+</body>
+</html>
