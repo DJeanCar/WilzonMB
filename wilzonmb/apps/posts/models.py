@@ -68,7 +68,7 @@ class Tag(models.Model):
 class Post(models.Model):
 
 	category = models.ManyToManyField(Category)
-	tag = models.ManyToManyField(Tag)
+	tag = models.ManyToManyField(Tag, blank=True)
 	user = models.ForeignKey(User)
 
 	title = models.CharField(max_length = 50)
