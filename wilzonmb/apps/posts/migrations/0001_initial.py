@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=50)),
-                ('slug', models.SlugField()),
+                ('slug', models.SlugField(null=True, blank=True)),
                 ('description_short', ckeditor.fields.RichTextField()),
                 ('description_large', ckeditor.fields.RichTextField()),
                 ('description_extra', models.TextField()),
@@ -41,13 +41,13 @@ class Migration(migrations.Migration):
             name='Comment',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(max_length=50)),
-                ('slug', models.SlugField()),
+                ('title', models.CharField(max_length=50, null=True, blank=True)),
+                ('slug', models.SlugField(null=True, blank=True)),
                 ('description', models.TextField()),
                 ('status', models.BooleanField(default=True)),
-                ('name', models.CharField(max_length=255)),
-                ('email', models.EmailField(max_length=254)),
-                ('web', models.CharField(max_length=100)),
+                ('name', models.CharField(max_length=255, null=True, blank=True)),
+                ('email', models.EmailField(max_length=254, null=True, blank=True)),
+                ('web', models.CharField(max_length=100, null=True, blank=True)),
             ],
         ),
         migrations.CreateModel(
@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=50)),
-                ('slug', models.SlugField()),
+                ('slug', models.SlugField(null=True, blank=True)),
                 ('title_hidden', models.BooleanField(default=True)),
                 ('description_short', ckeditor.fields.RichTextField()),
                 ('description_large', ckeditor.fields.RichTextField()),
@@ -80,7 +80,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=50)),
-                ('slug', models.SlugField()),
+                ('slug', models.SlugField(null=True, blank=True)),
                 ('status', models.BooleanField(default=True)),
                 ('description', models.TextField()),
                 ('orden', models.IntegerField()),

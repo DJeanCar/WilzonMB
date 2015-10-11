@@ -7,6 +7,7 @@ from ckeditor.fields import RichTextField
 class Category(models.Model):
 
 	user = models.ForeignKey(User)
+	parent = models.ForeignKey('self', default=None, null=True, blank=True)
 
 	title = models.CharField(max_length = 50)
 	slug = models.SlugField(max_length = 50, null = True, blank = True)

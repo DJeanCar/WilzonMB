@@ -16,3 +16,4 @@ media
 # MIGRACIONES
 wilzonmb/apps/main/migrations/*
 wilzonmb/apps/users/migrations/*
+wilzonmb/apps/posts/migrations/*

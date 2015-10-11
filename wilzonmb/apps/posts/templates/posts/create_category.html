@@ -9,6 +9,11 @@
 	<form method="POST">
 		{% csrf_token %}
 		<div>
+			<label>Categoría Padre</label>
+			{{ form.parent }}
+			{{ form.parent.errors }}
+		</div>
+		<div>
 			<label>Título</label>
 			{{ form.title }}
 			{{ form.title.errors }}
