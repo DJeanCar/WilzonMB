@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Home</h1>
+	{% if user.is_authenticated %}
+	<h3>Holaa {{ user.username }}</h3>
+	<a href="/salir/">Salir</a>	
+	{% endif %}
+</body>
+</html>

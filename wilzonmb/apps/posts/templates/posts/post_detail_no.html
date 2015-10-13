@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<h1>{{ post.title}}</h1>
+	<p>{{ post.description_large|safe }}</p>
+
+
+
+	<h2>Comentarios</h2>
+	<form method="POST">
+		{% csrf_token %}
+		<textarea name="comment" cols="50" rows="5"></textarea>
+		<input type="submit" value="Comentar">
+	</form>
+	{% for comment in comments %}
+		<div>
+			{% if comment.user %}
+				<spam>{{ comment.user.username }}</spam>
+			{% endif %}
+			<p>{{ comment.description }}</p>
+		</div>
+	{% endfor %}
+</body>
+</html>
