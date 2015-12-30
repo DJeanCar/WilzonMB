@@ -1,17 +1,20 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import FormView, TemplateView
+from django.core.urlresolvers import reverse_lazy
 
 from .forms import UserRegisterForm, UserLogInForm
+from braces.views import AnonymousRequiredMixin
 
 def LogOut(request):
 	logout(request)
 	return redirect('/')
 
-class UserLoginView(FormView):
+class UserLoginView(AnonymousRequiredMixin, FormView):
 
 	template_name = 'users/login.html'
 	form_class = UserLogInForm
+	authenticated_redirect_url = reverse_lazy("home")
 
 	def form_valid(self, form):
 		user = authenticate(

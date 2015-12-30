@@ -32,8 +32,7 @@ class Category(models.Model):
 		return self.title
 
 	def save(self, *args, **kwargs):
-		if not self.id:
-			self.slug = slugify(self.title)
+		self.slug = slugify(self.title)
 		super(Category, self).save(*args, **kwargs)
 
 
@@ -71,7 +70,7 @@ class Post(models.Model):
 	tag = models.ManyToManyField(Tag, blank=True)
 	user = models.ForeignKey(User)
 
-	title = models.CharField(max_length = 50)
+	title = models.CharField(max_length = 50, unique=True)
 	slug = models.SlugField(max_length = 50, null = True, blank = True)
 	title_hidden = models.BooleanField(default = True)
 	description_short = RichTextField()
@@ -95,8 +94,7 @@ class Post(models.Model):
 		return self.title
 
 	def save(self, *args, **kwargs):
-		if not self.id:
-			self.slug = slugify(self.title)
+		self.slug = slugify(self.title)
 		super(Post, self).save(*args, **kwargs)
 
 class Comment(models.Model):
