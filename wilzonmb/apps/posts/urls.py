@@ -3,7 +3,7 @@ from .views import CreatePost, CreateTag, CreateCategory, PostList, PostDetail, 
 
 urlpatterns = [
     url(r'^post/crear/$', CreatePost.as_view(), name="create_post"),
-    url(r'^post/(?P<slug>[-\w]+)/editar/$', EditPost.as_view(), name="edit_post"),
+    url(r'^post/(?P<pk>\d+)/editar/$', EditPost.as_view(), name="edit_post"),
     url(r'^tag/crear/$', CreateTag.as_view()),
     url(r'^categoria/crear/$', CreateCategory.as_view()),
 

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import FormView, ListView, DetailView, UpdateView
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
+from django.contrib import messages
 
 from braces.views import LoginRequiredMixin
 
@@ -19,13 +20,13 @@ class CreatePost(LoginRequiredMixin, FormView):
 	def get_context_data(self, **kwargs):
 		context = super(CreatePost, self).get_context_data(**kwargs)
 		if self.request.session.get('saved'):
-			context['saved'] = True
+			messages.add_message(self.request, messages.SUCCESS, 'Se creo el post correctamente')
 			self.request.session['saved'] = False
 		return context
 
 	def form_valid(self, form):
 		form.instance.user = self.request.user
-		form.save()
+		post = form.save()
 		if 'save' in self.request.POST:
 			''' Grabar '''
 			self.success_url = reverse('home')
@@ -36,7 +37,7 @@ class CreatePost(LoginRequiredMixin, FormView):
 		else:
 			''' Grabar y continuar editando '''
 			self.request.session['saved'] = True
-			self.success_url = reverse('edit_post', kwargs={'slug':slugify(form.cleaned_data['title'])})
+			self.success_url = reverse('edit_post', kwargs={'pk':post.id})
 		return super(CreatePost, self).form_valid(form)
 
 class EditPost(LoginRequiredMixin, UpdateView):
@@ -50,7 +51,7 @@ class EditPost(LoginRequiredMixin, UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(EditPost, self).get_context_data(**kwargs)
 		if self.request.session.get('saved'):
-			context['saved'] = True
+			messages.add_message(self.request, messages.SUCCESS, 'Se creo el post correctamente')
 			self.request.session['saved'] = False
 		return context
 
@@ -63,7 +64,7 @@ class EditPost(LoginRequiredMixin, UpdateView):
 			self.success_url = reverse('create_post')
 		else:
 			''' Grabar y continuar editando '''
-			self.success_url = reverse('edit_post', kwargs={'slug':slugify(form.cleaned_data['title'])})
+			self.success_url = reverse('edit_post', kwargs={'pk':self.object.id})
 		return super(EditPost, self).form_valid(form)
 
 class CreateTag(LoginRequiredMixin, FormView):
