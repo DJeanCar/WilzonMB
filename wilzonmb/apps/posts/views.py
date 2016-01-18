@@ -3,6 +3,7 @@ from django.views.generic import FormView, ListView, DetailView, UpdateView
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from django.contrib import messages
+from django.db.models import Q
 
 from braces.views import LoginRequiredMixin
 
@@ -97,6 +98,13 @@ class PostList(ListView):
 	model = Post
 	template_name = 'posts/post_list.html'
 	context_object_name = 'posts'
+
+	def get(self, request, *args, **kwargs):
+		search = request.GET.get('search')
+		if search:
+			results = Post.objects.filter(Q(title__icontains=search) | Q(pk__icontains=search) | Q(description_short__icontains=search) | Q(category__title__icontains=search) | Q(tag__title__icontains=search)).order_by('-created')
+			print results
+		return super(PostList, self).get(request, *args, **kwargs)
 
 class PostDetail(DetailView):
 
