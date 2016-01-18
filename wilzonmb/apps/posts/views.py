@@ -101,10 +101,15 @@ class PostList(ListView):
 
 	def get(self, request, *args, **kwargs):
 		search = request.GET.get('search')
+		self.results = None
 		if search:
-			results = Post.objects.filter(Q(title__icontains=search) | Q(pk__icontains=search) | Q(description_short__icontains=search) | Q(category__title__icontains=search) | Q(tag__title__icontains=search)).order_by('-created')
-			print results
+			self.results = Post.objects.filter(Q(title__icontains=search) | Q(pk__icontains=search) | Q(description_short__icontains=search) | Q(category__title__icontains=search) | Q(tag__title__icontains=search)).order_by('-created')
 		return super(PostList, self).get(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(PostList, self).get_context_data(**kwargs)
+		context['search'] = self.results
+		return context
 
 class PostDetail(DetailView):
 
