@@ -51,6 +51,7 @@ class EditPost(LoginRequiredMixin, UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(EditPost, self).get_context_data(**kwargs)
+		self.request.session['urlToReturn'] = self.request.META['HTTP_REFERER']
 		if self.request.session.get('saved'):
 			messages.add_message(self.request, messages.SUCCESS, 'Se creo el post correctamente')
 			self.request.session['saved'] = False
@@ -59,7 +60,8 @@ class EditPost(LoginRequiredMixin, UpdateView):
 	def form_valid(self, form):
 		if 'save' in self.request.POST:
 			''' Grabar '''
-			self.success_url = reverse('home')
+			self.success_url = self.request.session['urlToReturn']
+			self.request.session['urlToReturn'] = None
 		elif 'save2' in self.request.POST:
 			''' Grabar y agregar otro '''
 			self.success_url = reverse('create_post')
@@ -98,18 +100,54 @@ class PostList(ListView):
 	model = Post
 	template_name = 'posts/post_list.html'
 	context_object_name = 'posts'
+	paginate_by = 3
 
 	def get(self, request, *args, **kwargs):
-		search = request.GET.get('search')
+		search_id = request.GET.get('search_id')
+		search_title = request.GET.get('search_title')
+		search_description = request.GET.get('search_description')
+		search_category = request.GET.get('search_category')
+		search_tag = request.GET.get('search_tag')
 		self.results = None
-		if search:
-			self.results = Post.objects.filter(Q(title__icontains=search) | Q(pk__icontains=search) | Q(description_short__icontains=search) | Q(category__title__icontains=search) | Q(tag__title__icontains=search)).order_by('-created')
+		if search_id and search_title and search_description and search_category and search_tag:
+			self.results = Post.objects.filter(Q(title__icontains=search_title) | Q(pk__icontains=search_id) | Q(description_short__icontains=search_description) | Q(category__title__icontains=search_category) | Q(tag__title__icontains=search_tag)).order_by('-created')
+		elif search_id:
+			self.results = Post.objects.filter(Q(pk__icontains=search_id)).order_by('-created')
+		elif search_title:
+			self.results = Post.objects.filter(Q(title__icontains=search_title)).order_by('-created')
+		elif search_description:
+			self.results = Post.objects.filter(Q(description_short__icontains=search_description)).order_by('-created')
+		elif search_category:
+			self.results = Post.objects.filter(Q(category__title__icontains=search_category)).order_by('-created')
+		elif search_tag:
+			self.results = Post.objects.filter(Q(tag__title__icontains=search_tag)).order_by('-created')
+		elif search_title and search_category:
+			self.results = Post.objects.filter(Q(title__icontains=search_title) | Q(category__title__icontains=search_tag)).order_by('-created')
+		elif search_title and search_tag:
+			self.results = Post.objects.filter(Q(title__icontains=search_title) | Q(tag__title__icontains=search_tag)).order_by('-created')
+		elif search_title and search_tag and search_category:
+			self.results = Post.objects.filter(Q(title__icontains=search_title) | Q(tag__title__icontains=search_tag) | Q(category__title__icontains=search_tag)).order_by('-created')
+		elif search_description and search_category:
+			self.results = Post.objects.filter(Q(description_short__icontains=search_title) | Q(category__title__icontains=search_tag)).order_by('-created')
+		elif search_description and search_tag:
+			self.results = Post.objects.filter(Q(description_short__icontains=search_title) | Q(tag__title__icontains=search_tag)).order_by('-created')
+		elif search_description and search_tag and search_category:
+			self.results = Post.objects.filter(Q(description_short__icontains=search_title) | Q(tag__title__icontains=search_tag) | Q(category__title__icontains=search_tag)).order_by('-created')
+		else:
+			pass
 		return super(PostList, self).get(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs):
 		context = super(PostList, self).get_context_data(**kwargs)
 		context['search'] = self.results
 		return context
+
+	def post(self, request, *args, **kwargs):
+		"""
+			Eliminar post seleccionados
+		"""
+		Post.objects.filter(id__in=request.POST.getlist('delete')).delete()
+		return redirect(self.request.META['HTTP_REFERER'])
 
 class PostDetail(DetailView):
 

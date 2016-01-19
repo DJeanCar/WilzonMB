@@ -7,20 +7,47 @@
 <body>
 	<h1>List de Post</h1>
 	<form method="GET">
-		<input type="text" name="search" placeholder="Buscar Post">
+		<input type="text" name="search_id" placeholder="Buscar por ID">
+		<input type="text" name="search_title" placeholder="Buscar por título">
+		<input type="text" name="search_description" placeholder="Buscar por descripción">
+		<input type="text" name="search_category" placeholder="Buscar categoría">
+		<input type="text" name="search_tag" placeholder="Buscar por tag">
 		<input type="submit" value="Buscar">
 	</form>
-	{% if search %}
-		{% for post in search %}
-			<li><a href="/posts/{{ post.slug }}/">{{ post.title }}</a></li>
-		{% endfor %}
-	{% else %}
-	<ul>
-		{% for post in posts %}
-			<li><a href="/posts/{{ post.slug }}/">{{ post.title }}</a></li>
-		{% endfor %}
-	</ul>
-	{% endif %}
+
+	<form method="POST">
+		{% csrf_token %}
+		<ul>
+		{% if search %}
+			{% for post in search %}
+				<li><input type="checkbox" name="delete" value="{{ post.pk }}"><a href="/posts/{{ post.slug }}/">{{ post.title }}</a> - <a href="/post/{{ post.pk }}/editar/">Editar</a></li>
+			{% endfor %}
+		{% else %}
+		
+			{% for post in posts %}
+				<li><input type="checkbox" name="delete" value="{{ post.pk }}"><a href="/posts/{{ post.slug }}/">{{ post.title }}</a> - <a href="/post/{{ post.pk }}/editar/">Editar</a></li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+		<input type="submit" value="Eliminar">
+	</form>
+
+
+	{% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="/posts?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% endif %}
+                <span class="page-current">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="/posts?page={{ page_obj.next_page_number }}">Siguiente</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
 	
 </body>
 </html>
